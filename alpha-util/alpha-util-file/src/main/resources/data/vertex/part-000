@@ -1,0 +1,8 @@
+{"c3":{"city":{"value":"dongguan"},"quadrant":{ "value":3},"company_name":{"value":"com3"},"sex":{"value":"female"},"id":{"value":"c3"}, "age":{"value":3}}}
+{"c4":{"city":{"value":"sanya"},"quadrant":{"value":1},"company_name":{"value":"com4"},"sex":{"value":"pale"},"id":{"value":"c4"},"age":{"value":4}}}
+{"c5":{"city":{"value":"shanghai"},"quadrant":{"value":4},"company_name":{"value":"com5"},"sex":{"value":"pale"},"id":{"value":"c5"},"age":{"value":5}}}
+{"c6":{"city":{"value":"sanya"},"quadrant":{"value":1},"company_name":{"value":"com6"},"sex":{"value":"female"},"id":{"value":"c6"},"age":{"value":6}}}
+{"c7":{"city":{"value":"dongguan"},"quadrant":{"value":3},"company_name":{"value":"com7"},"sex":{"value":"female"},"id":{"value":"c7"},"age":{"value":7}}}
+{"c0":{"city":{"value":"sanya"},"quadrant":{"value":3},"company_name":{"value":"com0"},"sex":{"value":"pale"},"id":{"value":"c0"},"age":{"value":0}}}
+{"c1":{"city":{"value":"sanya"},"quadrant":{"value":1},"company_name":{"value":"com1"},"sex":{"value":"female"},"id":{"value":"c1"},"age":{"value":1}}}
+{"c2":{"city":{"value":"dongguan"},"quadrant":{"value":2},"company_name":{"value":"com2"},"sex":{"value":"pale"},"id":{"value":"c2"},"age":{"value":2}}}

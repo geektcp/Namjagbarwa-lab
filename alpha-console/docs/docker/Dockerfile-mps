@@ -1,0 +1,6 @@
+FROM java:8-jre
+
+ADD ./jar/alpha-console-mps.jar /app/
+
+CMD ["java", "-Xmx500m",  "-jar", "/app/alpha-console-mps.jar"]
+

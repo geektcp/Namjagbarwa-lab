@@ -1,0 +1,50 @@
+{
+    "from" : 0,
+    "size" : 5,
+    "query" : {
+        "bool" : {
+            "must" : [
+                {
+                    "bool" : {
+                        "should" : [
+                            {
+                                "ids" : {
+                                    "type" : [
+                                        "tv_tag_event"
+                                    ],
+                                    "values" : [
+                                        "a806051d0eda4bc487d3e0f0aecf692a"
+                                    ],
+                                    "boost" : 1.0
+                                }
+                            },
+                            {
+                                "ids" : {
+                                    "type" : [
+                                        "tv_achievement_sum_loan_bal"
+                                    ],
+                                    "values" : [
+                                        "CC3FL54944ADEE9XXX15A1D521C68306",
+                                        "CC3FL54944ADEE9XXX15A1D521C68514",
+                                        "CC3FL54944ADEE9XXX15A1D521C68517"
+                                    ],
+                                    "boost" : 1.0
+                                }
+                            }
+                        ],
+                        "disable_coord" : false,
+                        "adjust_pure_negative" : true,
+                        "boost" : 1.0
+                    }
+                }
+            ],
+            "disable_coord" : false,
+            "adjust_pure_negative" : true,
+            "boost" : 1.0
+        }
+    },
+    "_source" : {
+        "includes" : [ ],
+        "excludes" : [ ]
+    }
+}

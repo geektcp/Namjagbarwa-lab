@@ -1,0 +1,9 @@
+{"s3":{"city":{"value":"dongguan"},"quadrant":{"value":2},"sex":{"value":"female"},"id":{"value":"s3"},"age":{"value":3}}}
+{"s4":{"city":{"value":"shanghai"},"quadrant":{"value":2},"sex":{"value":"female"},"id":{"value":"s4"},"age":{"value":4}}}
+{"s5":{"city":{"value":"shenzhen"},"quadrant":{"value":4},"sex":{"value":"female"},"id":{"value":"s5"},"age":{"value":5}}}
+{"s6":{"city":{"value":"shenzhen"},"quadrant":{"value":4},"sex":{"value":"pale"},"id":{"value":"s6"},"age":{"value":6}}}
+{"s7":{"city":{"value":"shenzhen"},"quadrant":{"value":3},"sex":{"value":"female"},"id":{"value":"s7"},"age":{"value":7}}}
+{"s8":{"city":{"value":"shenzhen"},"quadrant":{"value":2},"sex":{"value":"pale"},"id":{"value":"s8"},"age":{"value":8}}}
+{"s0":{"city":{"value":"shenzhen"},"quadrant":{"value":4},"sex":{"value":"female"},"id":{"value":"s0"},"age":{"value":0}}}
+{"s1":{"city":{"value":"nanjing"},"quadrant":{"value":3},"sex":{"value":"female"},"id":{"value":"s1"},"age":{"value":1}}}
+{"s2":{"city":{"value":"nanjing"},"quadrant":{"value":2},"sex":{"value":"pale"},"id":{"value":"s2"},"age":{"value":2}}}

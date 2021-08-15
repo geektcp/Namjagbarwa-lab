@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>alpha-spi</artifactId>
+        <groupId>com.geektcp.alpha</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>alpha-spi-demo</artifactId>
+    <name>alpha-spi-demo</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.geektcp.alpha</groupId>
+            <artifactId>alpha-spi-parser</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.geektcp.alpha</groupId>
+            <artifactId>alpha-spi-mp3</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.geektcp.alpha</groupId>
+            <artifactId>alpha-spi-mp4</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.geektcp.alpha</groupId>
+            <artifactId>alpha-spi-rmvb</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>

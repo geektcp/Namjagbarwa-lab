@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>alpha-console-modules</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+
+    <name>alpha-console-modules</name>
+
+    <parent>
+        <groupId>com.geektcp.alpha</groupId>
+        <artifactId>alpha-console</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <modules>
+        <module>alpha-console-modules-turbine</module>
+        <module>alpha-console-modules-monitor</module>
+        <module>alpha-console-modules-job</module>
+        <module>alpha-console-modules-mq</module>
+        <module>alpha-console-modules-message</module>
+        <module>alpha-console-modules-sso</module>
+        <module>alpha-console-modules-cas</module>
+    </modules>
+
+</project>

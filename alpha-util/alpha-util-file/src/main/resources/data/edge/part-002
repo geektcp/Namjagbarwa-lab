@@ -1,0 +1,3 @@
+{"persons":{"p1":{"person_person":{"persons":{"p4":{"quadrant":{"value":1},"connect_time":{"value":1.0}}}}}}}
+{"persons":{"p6":{"person_person":{"persons":{"p7":{"quadrant":{"value":1},"connect_time":{"value":3.0}}}}}}}
+{"persons":{"p7":{"person_person":{"persons":{"p5":{"quadrant":{"value":2},"connect_time":{"value":4.0}}}}}}}

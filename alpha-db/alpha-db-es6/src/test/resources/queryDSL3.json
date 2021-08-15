@@ -1,0 +1,26 @@
+{
+    "from" : 0,
+    "size" : 5,
+    "query" : {
+        "bool" : {
+            "must" : [
+                {
+                    "bool" : {
+                        "should" : [
+                            {
+                                "ids" : {
+                                    "type" : [
+                                        "repayment_detail"
+                                    ],
+                                    "values" : [
+                                        "fb0666e4cffa279f5ed80fce2e275175"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+}

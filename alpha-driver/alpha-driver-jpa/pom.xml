@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>alpha-driver</artifactId>
+        <groupId>com.geektcp.alpha</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>alpha-driver-jpa</artifactId>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+
+        <log4j2.version>2.5</log4j2.version>
+        <final.name>logserver</final.name>
+
+        <httpclient.version>4.5.1</httpclient.version>
+        <lombok.version>1.16.10</lombok.version>
+        <druid.version>1.1.8</druid.version>
+        <commons-lang3.version>3.3.2</commons-lang3.version>
+        <servlet.version>2.5</servlet.version>
+
+        <swagger2.version>2.6.1</swagger2.version>
+    </properties>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>com.geektcp.alpha</groupId>
+            <artifactId>alpha-common-base</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <artifactId>alpha-common-spring</artifactId>
+            <groupId>com.geektcp.alpha</groupId>
+            <version>${project.version}</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

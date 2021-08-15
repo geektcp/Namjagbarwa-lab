@@ -1,0 +1,26 @@
+{
+    "from" : 0,
+    "size" : 5,
+    "query" : {
+        "bool" : {
+            "must" : [
+                {
+                    "bool" : {
+                        "should" : [
+                            {
+                                "ids" : {
+                                    "type" : [
+                                        "company"
+                                    ],
+                                    "values" : [
+                                        "12"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+}

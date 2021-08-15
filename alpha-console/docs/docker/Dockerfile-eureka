@@ -1,0 +1,6 @@
+FROM java:8-jre
+
+ADD ./jar/alpha-console-eureka.jar /app/
+CMD ["java", "-Xmx200m", "-jar", "/app/alpha-console-eureka.jar"]
+
+EXPOSE 1025

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+touch /var/lock/subsys/local
+
+
+/usr/local/bin/realserver.sh 192.168.4.180  start
+/usr/local/bin/realserver.sh 192.168.4.181  start

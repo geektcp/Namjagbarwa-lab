@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>alpha</artifactId>
+        <groupId>com.geektcp.alpha</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>alpha-util</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>alpha-util-options</module>
+        <module>alpha-util-fastjson</module>
+        <module>alpha-util-file</module>
+        <module>alpha-util-http</module>
+        <module>alpha-util-thread</module>
+        <module>alpha-util-guava</module>
+        <module>alpha-util-string</module>
+        <module>alpha-util-rule</module>
+        <module>alpha-util-antlr</module>
+        <module>alpha-util-lang3</module>
+        <module>alpha-util-base</module>
+        <module>alpha-util-queue</module>
+        <module>alpha-util-system</module>
+        <module>alpha-util-date</module>
+        <module>alpha-util-jna</module>
+        <module>alpha-util-office</module>
+        <module>alpha-util-serialize</module>
+        <module>alpha-util-graphics</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.geektcp.alpha</groupId>
+            <artifactId>alpha-common-base</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,11 @@
+{"persons":{"p1":{"person_work_company":{"company":{"c1":{"industryId":{"value":1.0},"positionId":{"value":1.0},"quadrant":{"value":1},"startTime":{"value":1}}}}}}}
+{"persons":{"p2":{"person_work_company":{"company":{"c1":{"industryId":{"value":1.0},"positionId":{"value":2.0},"quadrant":{"value":4},"startTime":{"value":3}}}}}}}
+{"persons":{"p2":{"person_work_company":{"company":{"c2":{"industryId":{"value":1.0},"positionId":{"value":2.0},"quadrant":{"value":3},"startTime":{"value":4}}}}}}}
+{"persons":{"p3":{"person_work_company":{"company":{"c1":{"industryId":{"value":1.0},"positionId":{"value":2.0},"quadrant":{"value":1},"startTime":{"value":5}}}}}}}
+{"persons":{"p4":{"person_work_company":{"company":{"c4":{"industryId":{"value":1.0},"positionId":{"value":2.0},"quadrant":{"value":4},"startTime":{"value":6}}}}}}}
+{"persons":{"p5":{"person_work_company":{"company":{"c2":{"industryId":{"value":2.0},"positionId":{"value":3.0},"quadrant":{"value":4},"startTime":{"value":7}}}}}}}
+{"persons":{"p6":{"person_work_company":{"company":{"c3":{"industryId":{"value":2.0},"positionId":{"value":3.0},"quadrant":{"value":3},"startTime":{"value":8}}}}}}}
+{"persons":{"p6":{"person_work_company":{"company":{"c4":{"industryId":{"value":2.0},"positionId":{"value":3.0},"quadrant":{"value":1},"startTime":{"value":9}}}}}}}
+{"persons":{"p7":{"person_work_company":{"company":{"c3":{"industryId":{"value":2.0},"positionId":{"value":3.0},"quadrant":{"value":3},"startTime":{"value":10}}}}}}}
+{"persons":{"p6":{"person_work_company":{"company":{"c4":{"industryId":{"value":2.0},"positionId":{"value":3.0},"quadrant":{"value":3},"startTime":{"value":11}}}}}}}
+{"persons":{"p8":{"person_work_company":{"company":{"c3":{"industryId":{"value":3.0},"positionId":{"value":3.0},"quadrant":{"value":4},"startTime":{"value":12}}}}}}}

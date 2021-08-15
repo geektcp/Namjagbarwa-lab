@@ -1,0 +1,10 @@
+spring:
+  application:
+    # nacos-config-spring-boot-starter依赖的代码逻辑是：
+    # 对应nacos的配置的dataId必须是spring.application.name配置项加上 .properties后缀，这点很关键
+    name: example
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: properties

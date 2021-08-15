@@ -1,0 +1,7 @@
+{"persons":{"p1":{"all_to_skill":{"skill":{"s3":{"quadrant":{"value":1}}}}}}}
+{"persons":{"p1":{"all_to_skill":{"skill":{"s2":{"quadrant":{"value":1}}}}}}}
+{"persons":{"p3":{"all_to_skill":{"skill":{"s3":{"quadrant":{"value":4}}}}}}}
+{"persons":{"p1":{"all_to_skill":{"skill":{"s1":{"quadrant":{"value":2}}}}}}}
+{"persons":{"p4":{"all_to_skill":{"skill":{"s2":{"quadrant":{"value":4}}}}}}}
+{"persons":{"p8":{"all_to_skill":{"skill":{"s1":{"quadrant":{"value":1}}}}}}}
+{"company":{"c2":{"all_to_skill":{"skill":{"s3":{"quadrant":{"value":4}}}}}}}

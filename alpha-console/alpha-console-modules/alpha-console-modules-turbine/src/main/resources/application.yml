@@ -1,0 +1,33 @@
+server:
+  port: 8600
+
+spring:
+  application:
+    name: alpha-console-modules-turbine
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 20
+    health-check-url-path: /actuator/health
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1025/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      cors:
+        allowed-origins: "*"
+        allowed-methods: "*"
+
+
+turbine:
+  app-config: alpha-console-mps,alpha-console-demo,alpha-console-passport,alpha-console-auth,alpha-console-gateway,alpha-console-portal,alpha-console-data
+  aggregator:
+    # turbine聚集数据的粒度
+    clusterConfig: default
+  clusterNameExpression: new String("default")
+  combine-host-port: true

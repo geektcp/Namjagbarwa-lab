@@ -1,0 +1,99 @@
+server:
+  context-path: /xxl-job-admin
+  port: 8090
+
+management:
+  context-path: /actuator
+  health:
+    mail:
+      enabled: false
+
+mybatis:
+  mapper-locations: classpath:/mybatis-mapper/*Mapper.xml
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: org.apache.tomcat.jdbc.pool.DataSource
+    url: jdbc:mysql://8.129.34.88:3306/xxl_job?Unicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
+    username: murphy
+    password: hO9567YRrTREW5zv
+    tomcat:
+      max-active: 30
+      max-wait: 10000
+      test-on-borrow: true
+      validation-interval: 30000
+      validation-query: SELECT 1
+
+  freemarker:
+    charset: UTF-8
+    request-context-attribute: request
+    settings:
+      number_format: 0.##########
+    suffix: .ftl
+    templateLoaderPath: classpath:/templates/
+
+  mail:
+    host: smtp.qq.com
+    password: xxx
+    port: 25
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+          starttls:
+            enable: true
+            required: true
+    username: xxx@qq.com
+
+  mvc:
+    servlet:
+      load-on-startup: 0
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/static/
+
+xxl:
+  job:
+    accessToken: ''
+    i18n: ''
+    logretentiondays: 30
+    triggerpool:
+      fast:
+        max: 200
+      slow:
+        max: 100
+
+---
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://8.129.34.88:3306/xxl_job?Unicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
+    username: murphy
+    password: hO9567YRrTREW5zv
+
+---
+spring:
+  profiles: test
+  datasource:
+    url: jdbc:mysql://rm-wz968a9277127p25o.mysql.rds.aliyuncs.com:3306/xxl_job?Unicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
+    username: murphy
+    password: YECAAGmKTlWwaqaEP0TYKXTpLAhh
+
+---
+spring:
+  profiles: demo
+  datasource:
+    url: jdbc:mysql://cdb-5zhcbia1.gz.tencentcdb.com:10042/xxl_job?Unicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
+    username: murphy
+    password: ^ekzwyf4iIl@4&@4
+
+---
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:mysql://rm-wz9w5c7at08vo0yq1.mysql.rds.aliyuncs.com:3306/xxl_job?Unicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
+    username: xxl_job
+    password: GUli45atgizYZQb040AxQyZmfVDW

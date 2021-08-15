@@ -1,0 +1,63 @@
+[{
+	"type": "VERTEX",
+	"v_id": "s2",
+	"v_type": "skill",
+	"attributes": {
+		"id": "s2",
+		"quadrant": 4,
+		"age": 2,
+		"sex": "male",
+		"city": "nanjing"
+	}
+},
+{
+	"type": "VERTEX",
+	"v_id": "s3",
+	"v_type": "skill",
+	"attributes": {
+		"id": "s3",
+		"quadrant": 4,
+		"age": 3,
+		"city": "dongguan"
+	}
+},
+{
+	"type": "VERTEX",
+	"v_id": "p2",
+	"v_type": "persons",
+	"attributes": {
+		"id": "p2",
+		"quadrant": 2,
+		"profileId": "p2",
+		"registrationDate": 2,
+		"age": 1,
+		"sex": "female",
+		"city": "shanghai"
+	}
+},
+{
+	"type": "EDGE",
+	"e_type": "all_to_skill",
+	"from_id": "c2",
+	"from_type": "company",
+	"to_id": "s3",
+	"to_type": "skill",
+	"directed": true,
+	"attributes": {
+		"quadrant": 4
+	}
+},
+{
+	"type": "EDGE",
+	"e_type": "person_work_company",
+	"from_id": "p2",
+	"from_type": "persons",
+	"to_id": "c2",
+	"to_type": "company",
+	"directed": true,
+	"attributes": {
+		"quadrant": 3,
+		"industryId": 1,
+		"startTime": 4
+	}
+}]

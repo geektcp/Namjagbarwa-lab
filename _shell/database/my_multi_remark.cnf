@@ -1,0 +1,573 @@
+# para for mysql 
+# author : thy
+# refman : https://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html
+
+[mysqld_multi]
+mysqld     = /usr/local/mysql/bin/mysqld_safe
+mysqladmin = /usr/local/mysql/bin/mysqladmin
+log = /usr/local/mysql/mysqld_mutil.log
+user = mysql
+
+
+#########################################################################################################
+[mysqld3306]
+basedir = /usr/local/mysql/
+datadir = /data1/mysql/data3306
+socket = /data1/mysql/data3306/mysql.sock
+pid-file = /data1/mysql/data3306/mysqld.pid
+tmpdir=/tmp
+lc_messages_dir=/usr/local/mysql/share
+log-error = /data1/mysql/log3306/error.log
+general_log_file=/data1/mysql/log3306/general.log
+slow_query_log = 1
+slow_query_log_file = /data1/mysql/log3306/slow.log
+log_bin_trust_function_creators=1
+user = mysql
+port = 3306
+
+#binlog path
+log-bin=/data0/log-bin/log3306/mysql-bin
+server_id=1403308
+
+#每个连接的binlog缓存，默认值32k，通常用于事务较多较大的业务
+binlog_cache_size=32K
+
+#事务较大的业务可以调大，默认最大值是18446744073709551615，mysql官方建议这个值不要超过4G
+#因为mysql定位4G以上的binlog缓存的position,超过4G时低版本mysql会出bug，mysql5.7版会自动重置为4G
+max_binlog_cache_size=2G
+
+#binlog文件最大大小，默认是1G
+max_binlog_size=500M
+
+#在mysql5.6版本中，默认值是STATEMENT，可以在日志文件中看到sql，日志文件较小，但是在主从同步时，对于有些不确定的sql语句，
+#使用STATEMENT，会提示警告，原因是不支持同步，使用ROW不会，但ROW会产生较多日志，容易磁盘占满，ROW格式看不到sql
+#详细对比，参考http://codejm.iteye.com/blog/1540046
+binlog-format=ROW
+
+
+#mysql写入数据使用的是write系统调用，实质上写到内核缓冲区，当指定sync_binlog为1时，每次write后都会调用fdatasync同步到磁盘
+#(fwrite是双缓冲，fflush刷新流缓冲区数据到内核，fdatasync刷新内核缓冲区数据到磁盘)
+#显然效率比较低，参考值是1000，可以根据业务情况安排，
+#sync_binlog越小对应的磁盘IO性能越差，但数据因为程序崩溃导致丢失的可能越小
+#sync_binlog越大，则IO性能越好，但数据在程序崩溃时更容易丢失。
+#默认值是0，表示由操作系统决定，隔一段时间写入到磁盘，具体多久暂不清楚
+sync_binlog=1000
+
+#停止写入binlog，默认值是1即启用写入binlog
+#假定历史原因，主库表结构比从库多一个字段，如果是同步状态，去掉了主库的那个字段时，
+#同步会报错，并卡住不再同步。怎么解决这个问题呢，执行即可set global sql_slave_skip_counter=1;
+#这个参数通常不写在配置文件里，实时调整比较好
+sql_log_bin=0
+
+
+#这个参数在双主模式，或者A->B->C模式中时，B既为主又为从，必须启用该参数
+log-slave-updates=1
+
+#指定binlog忽略的数据库
+binlog-ignore-db=mysql,test
+
+#指定同步时忽略的数据库
+replicate-ignore-db=test,mysql,information_schema
+
+#跳过主从同步到错误
+slave-skip-errors = 1022,1032,1062
+
+#指定binlog过期天数，最大值99
+expire_logs_days=0
+
+
+master-info-file=/data1/mysql/log3306/master.info
+
+#下面的3个参数有必要指定，因为默认relay log的命名规则是host_name-relay-bin.nnnnnn
+#如果从库所在服务器的主机名改变了，主从同步会失败(出自官方文档)
+relay-log=/data1/mysql/log3306/relaylog
+relay_log_info_file=/data1/mysql/log3306/relay-log.info
+relay-log-index=/data1/mysql/log3306/mysqld-relay-bin.index
+
+slave_load_tmpdir=/usr/local/mysql/tmp
+
+#当主库和从库表结构不一致时，如何同步呢
+#ALL_NON_LOSSY表示表结构的字段的类型转换只能扩大，不能缩小，这样不会有数据损失。例如char(20)–>varchar(25)
+#如果主库的某个表的字段是int，从库对应的字段是tinyint，范围缩小了，这时同步时主库提示1677错误，同步卡住。
+#默认值是空，即不做表结构转换
+slave_type_conversions="ALL_NON_LOSSY"
+
+
+#作为从库时，等待主库返回数据的超时时间
+slave_net_timeout=4
+
+#指定主库启动执行start slave时，从不不会自动启动io thread。
+skip-slave-start
+
+#作为从库时，处理主库的binlog的线程数，这个线程指的是SQL thread，不是IO thread
+#而且是每个线程只能处理一个库的数据，就是说当主库有8个库的数据更新并同步时，这样设置是效率很高的。
+#而不是主库一个实例频繁写入时，从库能够多线程并发处理。
+slave_parallel_workers=8
+
+#下面两个值参照sync_binlog说明
+sync_master_info=1000
+sync_relay_log_info=1000
+
+#参数external_locking和skip_external_locking是两个相反的参数，不能同时启用
+#这个参数的使用场景是对于myisam引擎，并且有多个实例或者进程比如misamchk进程在打开表文件时，
+#mysql在操作表示时会加文件锁，这样别的进程就要等待前面的进程解锁后才能操作。
+#在这个多进程场景中，启用external_locking需要等待其他进程解锁，所以性能降低。
+#在单独实例，单独使用datadir的场景时，external_locking是否启用无所谓，没有必要，
+#所以新版的mysql默认启用了skip_external_locking，即跳过文件锁。
+skip_external_locking
+
+#mysql处理的tcp连接时，未能及时完成三次握手的队列长度，及listen的参数backlog
+back_log = 500
+
+#默认值8M，索引缓存，当使用索引时，先查key_buffer_size再读索引块文件，
+#最大值不能超过物理内存的50%，对于myisam引擎建议值值物理内存的25%左右
+key_buffer_size = 1024M
+
+
+#mysql传送数据的单个数据包大小，默认值4M，当服务器使用BLOB这种数据时，必须调大这个值，最好是1024的倍数才能插入更大的数据。
+#当客户端要读取更大的数据时，客户端也要挑大这个值，或者重新编译客户端。
+#默认mysql命令行客户端能接受的包即max_allowed_packet最大为16M，而mysqldump能接收的最大包为24M，所以max_allowed_packet设置再打了
+max_allowed_packet = 128M
+
+# mysql查询缓存的起始值，该参数默认值是16384字节，最小值1024字节，最大值是1MB
+net_buffer_length = 1M
+
+#线程栈大小，默认256k，当用到递归调用存储过程时，要增大这个值
+thread_stack = 512K
+
+
+#table_open_cache参数指定mysql能打开的表的数量，这是个缓存值。
+#mysql的myisam引擎机制决定，索引的描述符是共享的，表的描述符是每个线程独立的。
+#假定有800个连接进来，没个连接开一个线程，且每个连接一定会打开指定的某5个索引文件，并且至少打开一张表，假定打开3张表，
+#那么打开表的文件描述符总量是800*3+5，意味着table_open_cache必须大于这个值。
+#由于操作系统对文件描述有两个限制，一个是操作系统级的:
+#/proc/sys/fs/file-max
+
+#另一个是进程级的：
+#/etc/security/limits.conf
+#* hard nofile 204800
+#* soft nofile 204800
+#所以table_open_cache <= limits.conf中的限制数量 <= /proc/sys/fs/file-max
+#table_open_cache过大时，mysql程序报错，连接异常
+#table_open_cache过小时，内核调优和limit中的配置参数失效，mysql性能下降
+#默认值是2000
+table_open_cache = 5120
+
+
+#默认值2M，如果业务程序有很多group by和order by这样的sql，
+#并且调优了query_cache缓存，增加了索引还是性能不够时，
+#并且Sort_merge_passes很大时(show global status like ‘sort%‘;)，要考虑调优该参数了
+#网上参考值，100k，超过1M速度越来越慢，所以原有的设置为6M是待改进的。需要进一步实际测试。
+sort_buffer_size = 6M
+
+#类似sort_buffer_size每个线程独享该内存，顺序扫描表(全表扫描)时用的缓存
+#需要调优该参数的使用场景：ORDER BY语句，插入大块数据，嵌套sql语句
+#默认值128K
+read_buffer_size = 4M
+
+#类似read_buffer_size，区别是随机扫描(全索引扫描)
+#默认值256K
+read_rnd_buffer_size=16M
+
+
+
+
+# 此缓冲被使用来优化全联合(FULL JOINS 不带索引的联合).
+# 类似的联合在极大多数情况下有非常糟糕的性能表现,但是将此值设大能够减轻性能影响.
+# 通过 “Select_full_join” 状态变量查看全联合的数量
+# 当全联合发生时,在每个线程中分配
+join_buffer_size = 8M
+
+# 大表查询，默认开启，对select无限制
+sql_big_selects
+
+# sql_big_selects=0/OFF时，mysql先估算单表查询结果行数或多表查询组合行数的大小，
+# 若比max_join_size大时，就会放弃该查询语句。
+# max_join_size默认是4294967295，值域：1~4294967295
+max_join_size
+
+# 5.6版本mysql，该参数以及去掉，无效，被max_join_size替换了
+#sql_max_join_size
+
+
+# 此缓冲当 MySQL 需要在 REPAIR, OPTIMIZE, ALTER 以及 LOAD DATA INFILE 到一个空表中引起重建索引时被分配.
+# 这在每个线程中被分配.所以在设置大值时需要小心.
+myisam_sort_buffer_size = 256M
+
+
+# 我们在 cache 中保留多少线程用于重用
+# 当一个客户端断开连接后,如果 cache 中的线程还少于 thread_cache_size,则客户端线程被放入cache 中.
+# 这可以在你需要大量新连接的时候极大的减少线程创建的开销
+# (一般来说如果你有好的线程模型的话,这不会有明显的性能提升.)
+thread_cache_size = 64
+
+
+# 查询缓冲常被用来缓冲 SELECT 的结果并且在下一次同样查询的时候不再执行直接返回结果.
+# 打开查询缓冲可以极大的提高服务器速度, 如果你有大量的相同的查询并且很少修改表.
+# 查看 “Qcache_lowmem_prunes” 状态变量来检查是否当前值对于你的负载来说是否足够高.
+# 注意: 在你表经常变化的情况下或者如果你的查询原文每次都不同,
+# 查询缓冲也许引起性能下降而不是性能提升.
+query_cache_type=1
+query_cache_limit=8M
+query_cache_size=128M
+
+# 内部(内存中)临时表的最大大小，如果一个内存临时表增长到比此值更大,将会自动转换为基于磁盘的表.
+# 通常用于GROUP BY语句消耗比较多内存的情景
+# 此限制是针对单个表的,而不是总和.
+tmp_table_size = 256M
+
+#create table或者alter table或者truncate table语句之前设置，
+#用于在创建或修改表结构时，限制表的大小行数及记录数
+# 这个参数和tmp_table_size的共同点：都是限制内存表大小的指标，都是可以动态调整无需重启实例的参数，区别在于:
+
+# 如果是动态调整max_heap_table_size和tmp_table_size,那么max_heap_table_size对当前的任何内存表无效，只对后续的create table或者alter table语句生效,
+# 而tmp_table_size对当前的内存表立即生效
+
+# 如果在配置文件my.cnf中设置max_heap_table_size的值并重新启动,那么这两个参数都会限制内存表大小,
+# mysql会使用这两个参数的较小值来限制表的大小，并且max_heap_table_size会限制建表时指定的MAX_ROWS大小
+max_heap_table_size=256M
+
+# MySQL 服务所允许的同时TCP连接数的上限
+# 其中一个连接将被 SUPER 权限保留作为管理员登录.
+max_connections = 4096
+
+# 单用户最大连接数
+max_user_connections = 2048
+
+# 每个客户端连接最大的错误允许数量,如果达到了此限制.
+# 这个客户端将会被 MySQL 服务阻止直到执行了 “FLUSH HOSTS” 或者服务重启
+# 非法的密码以及其他在链接时的错误会增加此值.
+# 查看 “Aborted_connects” 状态来获取全局计数器.
+max_connect_errors = 10000000
+
+#对于mysql5.6.1以前的版本部署在slowloris系统上时这个参数才有意义
+#参见mysql5.6.23源码, vim ./mysql-5.6.23/sql/sys_vars.cc
+#找到第2425到2440行
+#/* 
+#  thread_concurrency is a no-op on all platforms since
+#  MySQL 5.1.  It will be removed in the context of
+#  WL#5265
+#*/
+#static Sys_var_ulong Sys_thread_concurrency(
+#       "thread_concurrency",
+#       "Permits the application to give the threads system a hint for "
+#       "the desired number of threads that should be run at the same time. "
+#       "This variable has no effect, and is deprecated. "
+#       "It will be removed in a future release. ",
+#       READ_ONLY GLOBAL_VAR(concurrency),
+#       CMD_LINE(REQUIRED_ARG, OPT_THREAD_CONCURRENCY),
+#       VALID_RANGE(1, 512), DEFAULT(DEFAULT_CONCURRENCY), BLOCK_SIZE(1),
+#       NO_MUTEX_GUARD, NOT_IN_BINLOG, ON_CHECK(0), ON_UPDATE(0),
+#       DEPRECATED(""));
+#网上至今很多帖子的所谓的参数调优至今依然写这个参数，还见过有DBA认为这个参数会增加主从同步的速度
+# thread_concurrency = 8
+
+#如果没有这个配置项，create table时指定timestamp类型的列，会生产默认情况。
+explicit_defaults_for_timestamp = TRUE
+
+#启用定时任务功能
+event_scheduler=on
+
+#每个交互连接的超时时间, 交互连接是指客户端使用mysql_real_connect并且指定CLIENT_INTERACTIVE选项时
+interactive_timeout=288000
+
+#非交互连接的超时时间，即sleep状态超时时间，默认值288000即80小时，最大36天
+wait_timeout=288000
+
+#锁超时时间
+lock_wait_timeout=30
+
+# 是否启用并发插入，0即NEVER表示不启用，1即AUTO表示等待没有空洞时并发插入，
+# 2即ALWAYS表示一直开启，这时对于主键不是自增的表可能产生hole
+concurrent_insert=2
+
+#server
+default_storage_engine=MyIsam
+
+#mysql5.6.3新增参数，指定临时表引擎
+default_tmp_storage_engine=MyIsam
+
+#字符集
+character-set-server=utf8
+
+#忽略大小写
+lower_case_table_names=1
+
+#布尔类型，在目前一个实例对应一个datadir的环境下，没必要检查文件级的锁
+#这个参数是否启用并没有增加性能，反而因为多了一步检查锁定操作使性能下降一部分
+#在多个实例使用同一datadir目录时，必须启用external-locking
+skip-external-locking=1
+
+#打开文件数限制
+open_files_limit=655360
+
+#布尔类型，启用时,不能用grant语句创建用户，只能授权,要创建帐户只能使用insert语句插入mysql.user表
+safe-user-create=1
+
+#启用读物文件功能，客户端可以通过load data语句读取服务器datadir或客户端本地的文件写道数据库里
+local_infile=1
+
+#性能优化引起，0表示禁用
+performance_schema=0
+
+#对客户端连接，禁用域名解析
+skip-name-resolve=1
+
+#禁用ssl链接,mysql支持ssl加密连接，启动时要指定参数mysqld --ssl-ca=ca-cert.pem --ssl-cert=server-cert.pem --ssl-key=server-key.pem
+skip-ssl=1
+connect_timeout=8
+
+#mysql从套接字中读取数据的超时时间
+net_read_timeout=30
+
+#mysql向套接字写入数据的超时时间
+net_write_timeout=60
+
+
+#########################################################################################################
+[mysqld3307]
+basedir = /usr/local/mysql/
+datadir = /data2/mysql/data3307
+socket = /data2/mysql/data3307/mysql.sock
+pid-file = /data2/mysql/data3307/mysqld.pid
+tmpdir=/tmp
+lc_messages_dir=/usr/local/mysql/share
+log-error = /data2/mysql/log3307/error.log
+general_log_file=/data2/mysql/log3307/general.log
+slow_query_log = 1
+slow_query_log_file = /data2/mysql/log3307/slow.log
+log_bin_trust_function_creators=1
+user = mysql
+port = 3307
+
+#binlog path
+log-bin=/data0/log-bin/log3307/mysql-bin
+server_id=1403308
+binlog_cache_size=32K
+max_binlog_cache_size=2G
+max_binlog_size=500M
+binlog-format=ROW
+sync_binlog=1000
+log-slave-updates=1
+binlog-ignore-db=mysql,test
+replicate-ignore-db=test,mysql,information_schema
+
+slave-skip-errors = 1022,1032,1062
+
+expire_logs_days=0
+master-info-file=/data2/mysql/log3307/master.info
+relay-log=/data2/mysql/log3307/relaylog
+relay_log_info_file=/data2/mysql/log3307/relay-log.info
+relay-log-index=/data2/mysql/log3307/mysqld-relay-bin.index
+slave_load_tmpdir=/usr/local/mysql/tmp
+slave_type_conversions="ALL_NON_LOSSY"
+slave_net_timeout=4
+skip-slave-start
+sync_master_info=1000
+sync_relay_log_info=1000
+skip_external_locking
+back_log = 500
+key_buffer_size = 1024M
+max_allowed_packet = 128M
+thread_stack = 512K
+table_open_cache = 5120
+sort_buffer_size = 6M
+read_buffer_size = 4M
+join_buffer_size = 8M
+myisam_sort_buffer_size = 256M
+thread_cache_size = 64
+query_cache_type=1
+query_cache_limit=8M
+query_cache_size=128M
+tmp_table_size = 256M
+max_connections = 1000
+max_connect_errors = 10000000
+thread_concurrency = 8
+explicit_defaults_for_timestamp = TRUE
+event_scheduler=on
+interactive_timeout=288000
+wait_timeout=288000
+lock_wait_timeout=30
+concurrent_insert=2
+
+#server
+default-storage-engine=MyIsam
+default-tmp-storage-engine=MyIsam
+character-set-server=utf8
+lower_case_table_names=1
+skip-external-locking
+open_files_limit=655360
+safe-user-create
+local-infile=1
+performance_schema=0
+skip-name-resolve
+skip-ssl
+connect_timeout=8
+net_read_timeout=30
+net_write_timeout=60
+
+
+#########################################################################################################
+[mysqld3308]
+basedir = /usr/local/mysql/
+datadir = /data3/mysql/data3308
+socket = /data3/mysql/data3308/mysql.sock
+pid-file = /data3/mysql/data3308/mysqld.pid
+tmpdir=/tmp
+lc_messages_dir=/usr/local/mysql/share
+log-error = /data3/mysql/log3308/error.log
+general_log_file=/data3/mysql/log3308/general.log
+slow_query_log = 1
+slow_query_log_file = /data3/mysql/log3308/slow.log
+log_bin_trust_function_creators=1
+user = mysql
+port = 3308
+
+#binlog path
+log-bin=/data0/log-bin/log3308/mysql-bin
+server_id=1403308
+binlog_cache_size=32K
+max_binlog_cache_size=2G
+max_binlog_size=500M
+binlog-format=ROW
+sync_binlog=1000
+log-slave-updates=1
+binlog-ignore-db=mysql,test
+replicate-ignore-db=test,mysql,information_schema
+
+slave-skip-errors = 1022,1032,1062
+
+expire_logs_days=0
+master-info-file=/data3/mysql/log3308/master.info
+relay-log=/data3/mysql/log3308/relaylog
+relay_log_info_file=/data3/mysql/log3308/relay-log.info
+relay-log-index=/data3/mysql/log3308/mysqld-relay-bin.index
+slave_load_tmpdir=/usr/local/mysql/tmp
+slave_type_conversions="ALL_NON_LOSSY"
+slave_net_timeout=4
+skip-slave-start
+sync_master_info=1000
+sync_relay_log_info=1000
+skip_external_locking
+back_log = 500
+key_buffer_size = 1024M
+max_allowed_packet = 128M
+thread_stack = 512K
+table_open_cache = 5120
+sort_buffer_size = 6M
+read_buffer_size = 4M
+join_buffer_size = 8M
+myisam_sort_buffer_size = 256M
+thread_cache_size = 64
+query_cache_type=1
+query_cache_limit=8M
+query_cache_size=128M
+tmp_table_size = 256M
+max_connections = 1000
+max_connect_errors = 10000000
+thread_concurrency = 8
+explicit_defaults_for_timestamp = TRUE
+event_scheduler=on
+interactive_timeout=288000
+wait_timeout=288000
+lock_wait_timeout=30
+concurrent_insert=2
+
+#server
+default-storage-engine=MyIsam
+default-tmp-storage-engine=MyIsam
+character-set-server=utf8
+lower_case_table_names=1
+skip-external-locking
+open_files_limit=655360
+safe-user-create
+local-infile=1
+performance_schema=0
+skip-name-resolve
+skip-ssl
+connect_timeout=8
+net_read_timeout=30
+net_write_timeout=60
+
+
+#########################################################################################################
+[mysqld3309]
+basedir = /usr/local/mysql/
+datadir = /data4/mysql/data3309
+socket = /data4/mysql/data3309/mysql.sock
+pid-file = /data4/mysql/data3309/mysqld.pid
+tmpdir=/tmp
+lc_messages_dir=/usr/local/mysql/share
+log-error = /data4/mysql/log3309/error.log
+general_log_file=/data4/mysql/log3309/general.log
+slow_query_log = 1
+slow_query_log_file = /data4/mysql/log3309/slow.log
+log_bin_trust_function_creators=1
+user = mysql
+port = 3309
+
+#binlog path
+log-bin=/data0/log-bin/log3309/mysql-bin
+server_id=1403309
+binlog_cache_size=32K
+max_binlog_cache_size=2G
+max_binlog_size=500M
+binlog-format=ROW
+sync_binlog=1000
+log-slave-updates=1
+binlog-ignore-db=mysql,test
+replicate-ignore-db=test,mysql,information_schema
+
+slave-skip-errors = 1022,1032,1062
+
+expire_logs_days=0
+master-info-file=/data4/mysql/log3309/master.info
+relay-log=/data4/mysql/log3309/relaylog
+relay_log_info_file=/data4/mysql/log3309/relay-log.info
+relay-log-index=/data4/mysql/log3309/mysqld-relay-bin.index
+slave_load_tmpdir=/usr/local/mysql/tmp
+slave_type_conversions="ALL_NON_LOSSY"
+slave_net_timeout=4
+skip-slave-start
+sync_master_info=1000
+sync_relay_log_info=1000
+skip_external_locking
+back_log = 500
+key_buffer_size = 1024M
+max_allowed_packet = 128M
+thread_stack = 512K
+table_open_cache = 5120
+sort_buffer_size = 6M
+read_buffer_size = 4M
+join_buffer_size = 8M
+myisam_sort_buffer_size = 256M
+thread_cache_size = 64
+query_cache_type=1
+query_cache_limit=8M
+query_cache_size=128M
+tmp_table_size = 256M
+max_connections = 1000
+max_connect_errors = 10000000
+thread_concurrency = 8
+explicit_defaults_for_timestamp = TRUE
+event_scheduler=on
+interactive_timeout=288000
+wait_timeout=288000
+lock_wait_timeout=30
+concurrent_insert=2
+
+#server
+default-storage-engine=MyIsam
+default-tmp-storage-engine=MyIsam
+character-set-server=utf8
+lower_case_table_names=1
+skip-external-locking
+open_files_limit=655360
+safe-user-create
+local-infile=1
+performance_schema=0
+skip-name-resolve
+skip-ssl
+connect_timeout=8
+net_read_timeout=30
+net_write_timeout=60

@@ -1,0 +1,19 @@
+INSERT INTO `sys_resource` (`id`, `name`, `code`, `group`, `type`, `sub_type`, `parent_id`, `url`, `remark`, `enabled_flag`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES ('1', '系统角色管理', 'sys_role_manger', '', 'SYS', '', '0', '/api/sys/role', '', 'Y', '', '2019-01-07 18:34:10', '', '2019-06-20 16:36:39');
+INSERT INTO `sys_resource` (`id`, `name`, `code`, `group`, `type`, `sub_type`, `parent_id`, `url`, `remark`, `enabled_flag`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES ('20', '查看列表', 'find_sys_role', '', 'SYS', '', '1', '/api/sys/role/findSysRoleList', '', 'Y', '', '2019-01-07 18:34:10', '', '2019-06-20 16:36:40');
+INSERT INTO `sys_resource` (`id`, `name`, `code`, `group`, `type`, `sub_type`, `parent_id`, `url`, `remark`, `enabled_flag`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES ('30', '新建角色', 'save_sys_role', '', 'SYS', '', '1', '/api/sys/role/saveOrUpdate', '', 'Y', '', '2019-01-07 18:34:10', '', '2019-06-20 16:37:48');
+INSERT INTO `sys_resource` (`id`, `name`, `code`, `group`, `type`, `sub_type`, `parent_id`, `url`, `remark`, `enabled_flag`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES ('40', '编辑角色', 'update_sys_role', '', 'SYS', '', '1', '/api/sys/role/saveOrUpdate', '', 'Y', '', '2019-01-07 18:34:10', '', '2019-06-20 16:37:48');
+
+INSERT INTO `sys_role` (`id`, `name`, `code`, `remark`, `enabled_flag`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES ('1', '超级管理员', NULL, NULL, 'Y', '1', '2019-02-27 14:23:33', '1', '2019-02-27 14:26:45');
+INSERT INTO `sys_role` (`id`, `name`, `code`, `remark`, `enabled_flag`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES ('2', '系统管理员', NULL, NULL, 'Y', '1', '2019-02-26 14:49:28', '1', '2019-02-27 14:26:57');
+INSERT INTO `sys_role` (`id`, `name`, `code`, `remark`, `enabled_flag`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES ('3', '数据管理员', NULL, NULL, 'Y', '1', '2019-02-26 14:49:05', '1', '2019-02-27 14:27:10');
+INSERT INTO `sys_role` (`id`, `name`, `code`, `remark`, `enabled_flag`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES ('4', '项目管理员', NULL, NULL, 'Y', '1', '2019-04-11 17:41:45', '1', '2019-04-18 11:00:36');
+INSERT INTO `sys_role` (`id`, `name`, `code`, `remark`, `enabled_flag`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES ('5', '普通用户', NULL, NULL, 'Y', '1', '2019-04-18 10:59:25', '1', '2019-04-18 11:00:56');
+
+INSERT INTO `sys_role_resource` (`id`, `role_id`, `resource_id`) VALUES ('1', '1', '1');
+INSERT INTO `sys_role_resource` (`id`, `role_id`, `resource_id`) VALUES ('2', '1', '20');
+INSERT INTO `sys_role_resource` (`id`, `role_id`, `resource_id`) VALUES ('3', '1', '30');
+INSERT INTO `sys_role_resource` (`id`, `role_id`, `resource_id`) VALUES ('4', '1', '40');
+
+INSERT INTO `sys_user` (`id`, `user_no`, `password`, `name`, `phone`, `email`, `user_source`, `status`, `enabled_flag`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES ('-1', '$atlas$', 'SHA-1$1000$eSz6rWI5$5290f6747251346f6f09b33e5bb549b9b7c00c53', '内置用户', '', '', '', '0', 'Y', '', '2019-03-04 10:14:06', '', '2019-03-04 10:19:35');
+INSERT INTO `sys_user` (`id`, `user_no`, `password`, `name`, `phone`, `email`, `user_source`, `status`, `enabled_flag`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES ('1', 'superadmin', 'SHA-1$1000$RBG0FMwC$282589594fb284e5eb18c863ea0f71b6c689db79', '超级管理员', '139xxxxxxx', 'abc@graph.com', '', '0', 'Y', '', '2019-03-04 10:14:06', '', '2019-03-04 10:19:35');
+INSERT INTO `sys_user` (`id`, `user_no`, `password`, `name`, `phone`, `email`, `user_source`, `status`, `enabled_flag`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES ('2', 'admin', 'SHA-1$1000$RBG0FMwC$282589594fb284e5eb18c863ea0f71b6c689db79', '系统管理员', '134xxxxxxxx', 'dddd@tiger.com', '', '0', 'Y', '', '2019-03-04 10:19:22', '', '2019-03-04 10:19:59');

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <id>bin</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+            <!--如果有第三方jar包，最好是导入本地maven库然后打包，
+            这里的useProjectArtifact不能导入第三方jar包 没什么鸟用 -->
+            <useProjectArtifact>false</useProjectArtifact>
+            <unpack>false</unpack>
+        </dependencySet>
+    </dependencySets>
+
+    <fileSets>
+        <!-- 把项目自己编译出来的jar文件，打包进zip文件的根目录 -->
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>/</outputDirectory>
+
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+
+        <!-- 把项目相关的说明文件，打包进zip文件的根目录 -->
+        <fileSet>
+            <directory>${project.basedir}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>readme.txt</include>
+                <include>start.sh</include>
+                <include>*.sh</include>
+            </includes>
+        </fileSet>
+
+         <!--把项目相关的说明文件，打包进zip文件的根目录-->
+        <fileSet>
+            <directory>${project.basedir}/conf</directory>
+            <outputDirectory>/conf</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <directory>${project.basedir}/lib</directory>
+            <outputDirectory>/lib</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <directory>${project.basedir}/logs</directory>
+            <outputDirectory>/logs</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <directory>${project.basedir}/conf</directory>
+            <outputDirectory>/conf</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <directory>${project.basedir}/bin</directory>
+            <outputDirectory>/</outputDirectory>
+        </fileSet>
+
+    </fileSets>
+
+</assembly>

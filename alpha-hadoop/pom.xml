@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>alpha</artifactId>
+        <groupId>com.geektcp.alpha</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>alpha-hadoop</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>alpha-hadoop-spark</module>
+        <module>alpha-hadoop-hdfs</module>
+        <module>alpha-hadoop-hive</module>
+        <module>alpha-hadoop-kafka</module>
+        <module>alpha-hadoop-flume</module>
+        <module>alpha-hadoop-mapreduce</module>
+        <module>alpha-hadoop-zookeeper</module>
+        <module>alpha-hadoop-hbase</module>
+    </modules>
+
+
+</project>

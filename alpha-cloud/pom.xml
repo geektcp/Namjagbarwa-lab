@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>alpha</artifactId>
+        <groupId>com.geektcp.alpha</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>alpha-cloud</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>alpha-cloud-config</module>
+        <module>alpha-cloud-eureka</module>
+        <module>alpha-cloud-feign</module>
+        <module>alpha-cloud-hystrix</module>
+        <module>alpha-cloud-ribbon</module>
+        <module>alpha-cloud-zuul</module>
+        <module>alpha-cloud-zipkin</module>
+        <module>alpha-cloud-example</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <!--<version>Edgware.SR1</version>-->
+                <version>Dalston.SR1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

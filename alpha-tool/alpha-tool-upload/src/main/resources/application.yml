@@ -1,0 +1,22 @@
+server:
+  port: 9000
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://alpha-server:63306/dbgirl
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  http:
+    multipart:
+      max-file-size: 100MB     # single file size
+      max-request-size: 100MB  # all file size when multi file
+
+logging:
+  level:
+    org.springframework: INFO
+
+
